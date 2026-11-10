@@ -1,0 +1,14 @@
+## What
+<!-- One or two sentences: what does this PR change? -->
+
+## Why
+Closes #
+
+## How I tested it
+- [ ]
+
+## Checklist
+- [ ] PR title follows Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:` …)
+- [ ] Lint, typecheck and tests pass locally
+- [ ] ADR/docs updated if a decision was made
+- [ ] No secrets or personal data in the diff
