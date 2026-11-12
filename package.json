@@ -16,7 +16,10 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@plate/eslint-config": "workspace:*",
+    "eslint": "catalog:",
     "prettier": "catalog:",
-    "turbo": "catalog:"
+    "turbo": "catalog:",
+    "typescript": "catalog:"
   }
 }
