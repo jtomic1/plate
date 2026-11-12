@@ -1,6 +1,6 @@
 name: Feature / task
 description: A unit of work that delivers something
-labels: ["enhancement"]
+labels: ['enhancement']
 body:
   - type: textarea
     id: goal
