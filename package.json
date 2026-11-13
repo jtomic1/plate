@@ -14,7 +14,10 @@
     "test": "turbo run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "db:up": "docker compose up --wait",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down --volumes && docker compose up --wait"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
