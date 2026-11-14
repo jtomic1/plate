@@ -10,6 +10,9 @@ CI and production run Linux.
 - `pnpm build` / `pnpm lint` / `pnpm typecheck` / `pnpm test`: run through Turborepo
 - `pnpm format`: format everything with Prettier
 - One package only: `pnpm --filter "@plate/contracts" build`
+- `pnpm db:up`: start PostgreSQL (Docker) and wait until healthy
+- `pnpm db:down`: stop it; data is kept
+- `pnpm db:reset`: DELETES all local data and starts fresh; ask before running
 
 ## Rules
 
