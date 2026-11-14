@@ -40,10 +40,19 @@ _Versions are pinned in [`mise.toml`](mise.toml)_
 4. `pnpm install` - installs app dependencies and git hooks
 5. `pnpm build` - compilation, bundling & optimization, artifact generating
 
+#### Local DB setup (requires Docker Desktop running)
+
+1. Create `.env` using the `.env.example` (`Copy-Item .env.example .env`)
+2. Execute `pnpm db:up`. In case port `5432` is already being used, change `POSTGRES_PORT` and the port within `DATABASE_URL` inside `.env` to an available port (eg. `5433`)
+3. Connecting to the database can be done by executing the following command: `docker compose exec postgres psql -U plate -d plate`
+
+**Note:** Editing credentials within `.env` requires `pnpm:reset`, since those changes take effect on the first start with an empty volume.
+
 #### Verify your setup
 
 - `pnpm lint && pnpm typecheck` pass
 - Hooks - `Get-ChildItem .git\hooks -Exclude *.sample` returns `commit-msg` and `pre-commit`
+- `docker compose ps` showing `(healthy)` in the `STATUS` column of the database
 
 ### Common Commands
 
@@ -56,6 +65,9 @@ _Versions are pinned in [`mise.toml`](mise.toml)_
 | `pnpm format`                          | Automatically formats code across the codebase according to the formatter rules.                                                                                                 |
 | `pnpm format:check`                    | Verifies that all files match formatting rules without modifying them (useful in CI).                                                                                            |
 | `pnpm --filter "@scope/pkg" <command>` | Runs a script inside a single workspace package. _(Note: In PowerShell, package names starting with `@` must be wrapped in quotes so `@` isn't parsed as a splatting operator)._ |
+| `pnpm db:up`                           | Starts the local PostgreSQL container.                                                                                                                                           |
+| `pnpm db:down`                         | Shuts down the local PostgreSQL while preserving data.                                                                                                                           |
+| `pnpm db:reset`                        | Restarts the local PostgreSQL container. **Data inside the DB is deleted.**                                                                                                      |
 
 ## Project Structure Overview
 
