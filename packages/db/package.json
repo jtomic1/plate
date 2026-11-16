@@ -12,7 +12,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "generate": "tsx ./node_modules/drizzle-kit/bin.cjs generate",
+    "migrate": "pnpm run build && node --env-file-if-exists=../../.env dist/migrate.js"
   },
   "devDependencies": {
     "@plate/eslint-config": "workspace:*",
