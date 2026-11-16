@@ -19,7 +19,9 @@
     "db:down": "docker compose down",
     "db:reset": "docker compose down --volumes && docker compose up --wait",
     "db:generate": "pnpm --filter @plate/db run generate",
-    "db:migrate": "pnpm --filter @plate/db run migrate"
+    "db:migrate": "pnpm --filter @plate/db run migrate",
+    "db:seed": "pnpm --filter @plate/db run seed",
+    "db:studio": "pnpm --filter @plate/db run studio"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
