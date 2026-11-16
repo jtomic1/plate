@@ -14,7 +14,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "generate": "tsx ./node_modules/drizzle-kit/bin.cjs generate",
-    "migrate": "pnpm run build && node --env-file-if-exists=../../.env dist/migrate.js"
+    "migrate": "pnpm run build && node --env-file-if-exists=../../.env dist/migrate.js",
+    "seed": "pnpm run build && node --env-file-if-exists=../../.env dist/seed.js",
+    "studio": "tsx ./node_modules/drizzle-kit/bin.cjs studio"
   },
   "devDependencies": {
     "@plate/eslint-config": "workspace:*",
