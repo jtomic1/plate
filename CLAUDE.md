@@ -13,6 +13,10 @@ CI and production run Linux.
 - `pnpm db:up`: start PostgreSQL (Docker) and wait until healthy
 - `pnpm db:down`: stop it; data is kept
 - `pnpm db:reset`: DELETES all local data and starts fresh; ask before running
+- `pnpm db:generate --name <name>`: Generates migration files according to the schema edits (`.sql` + records in `meta/*`). Ask for permission before running this command
+- `pnpm db:migrate`: Applies all pending migrations
+- `pnpm db:seed`: Seeds the database with mock data (do not run in production)
+- `pnpm db:studio`: Opens the Drizzle Studio UI. It runs until stopped. Do not run this command without asking for permission
 
 ## Rules
 
@@ -22,3 +26,10 @@ CI and production run Linux.
 - `packages/contracts` must not import Node.js or framework code.
 - Commit messages and PR titles follow Conventional Commits.
 - Architecture decisions live in `docs/adr/`.
+
+### Database rules
+
+- Database conventions are defined in `packages/db/README.md`. Read this file before making changes in `packages/db`.
+- Merged migrations should never be edited. Fixes go into a new migration.
+- Schema edits and migration files should always go in one PR.
+- `drizzle-kit push` should never be run.
