@@ -30,7 +30,7 @@ A personal nutrition and training tracker.
 - Docker Desktop (requires WSL 2, needed from Phase 2 onwards) - `winget install --id Docker.DockerDesktop -e`
 - **Explicit installation of Node or pnpm should not be done** - mise handles it.
 
-### Setup
+### First-Time Setup
 
 _Versions are pinned in [`mise.toml`](mise.toml)_
 
@@ -44,15 +44,25 @@ _Versions are pinned in [`mise.toml`](mise.toml)_
 
 1. Create `.env` using the `.env.example` (`Copy-Item .env.example .env`)
 2. Execute `pnpm db:up`. In case port `5432` is already being used, change `POSTGRES_PORT` and the port within `DATABASE_URL` inside `.env` to an available port (eg. `5433`)
-3. Connecting to the database can be done by executing the following command: `docker compose exec postgres psql -U plate -d plate`
+3. Run `pnpm db:migrate` to apply all pending migrations.
+4. Run `pnpm db:seed` to pre-populate the DB with mock data.
+5. Connecting to the database can be done by executing the following command: `docker compose exec postgres psql -U plate -d plate`
 
-**Note:** Editing credentials within `.env` requires `pnpm:reset`, since those changes take effect on the first start with an empty volume.
+**Note:** Editing credentials within `.env` requires `pnpm db:reset`, since those changes take effect on the first start with an empty volume. `pnpm db:reset` should always be followed by `pnpm db:migrate` and `pnpm db:seed`.
 
 #### Verify your setup
 
 - `pnpm lint && pnpm typecheck` pass
 - Hooks - `Get-ChildItem .git\hooks -Exclude *.sample` returns `commit-msg` and `pre-commit`
 - `docker compose ps` showing `(healthy)` in the `STATUS` column of the database
+
+### Daily Workflow
+
+1. `pnpm db:up`
+2. `git switch main; git pull`
+3. `pnpm install`
+4. `pnpm db:migrate`
+5. (optional) `pnpm db:reset` when needed, followed by `pnpm db:migrate` and `pnpm db:seed`.
 
 ### Common Commands
 
@@ -68,6 +78,10 @@ _Versions are pinned in [`mise.toml`](mise.toml)_
 | `pnpm db:up`                           | Starts the local PostgreSQL container.                                                                                                                                           |
 | `pnpm db:down`                         | Shuts down the local PostgreSQL while preserving data.                                                                                                                           |
 | `pnpm db:reset`                        | Restarts the local PostgreSQL container. **Data inside the DB is deleted.**                                                                                                      |
+| `pnpm db:generate --name <name>`       | Generates migration files according to the schema edits (`.sql` + records in `meta/*`).                                                                                          |
+| `pnpm db:migrate`                      | Applies all pending migrations.                                                                                                                                                  |
+| `pnpm db:seed`                         | Seeds the database with mock data.                                                                                                                                               |
+| `pnpm db:studio`                       | Opens the Drizzle Studio UI.                                                                                                                                                     |
 
 ## Project Structure Overview
 
@@ -75,6 +89,7 @@ _Versions are pinned in [`mise.toml`](mise.toml)_
 plate/
 ├── docs/  - Documentation
 ├── packages/
+│   ├── db/  - Database/Drizzle setup package
 │   ├── contracts/  - Zod shared contracts package
 │   ├── eslint-config/  - shared ESLint config package
 │   └── tsconfig/  - shared TS config package
@@ -133,6 +148,7 @@ plate/
 ## Documentation
 
 - Architecture decisions: [docs/adr](docs/adr)
+- Database conventions: [packages/db/README.md](packages/db/README.md)
 
 ## Contributing
 
